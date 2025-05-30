@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Магазин</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .product { margin-bottom: 20px; border: 1px solid #ccc; padding: 10px; }
+    button { padding: 10px; background: #0088cc; color: white; border: none; }
+  </style>
+</head>
+<body>
+  <h1>🛍️ Магазин</h1>
+  <div id="products"></div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const products = [
+      { id: 1, name: "Товар 1", price: 100, description: "Описание товара 1" },
+      { id: 2, name: "Товар 2", price: 200, description: "Описание товара 2" }
+    ];
+
+    const container = document.getElementById("products");
+    products.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `<h3>${p.name}</h3><p>${p.description}</p><p>💫 ${p.price} Stars</p>
+        <button onclick="buy(${p.id})">Купить</button>`;
+      container.appendChild(div);
+    });
+
+    function buy(id) {
+      const product = products.find(p => p.id === id);
+      tg.sendData(JSON.stringify({ action: "buy", product }));
+    }
+  </script>
+</body>
+</html>
